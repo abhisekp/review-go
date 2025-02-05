@@ -17,7 +17,6 @@ func (bb *BaseBuilder) SetA(a int) *BaseBuilder {
 }
 
 func (bb *BaseBuilder) Build() IBase {
-	bb.base.__builder = true
 	return bb.base
 }
 
