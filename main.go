@@ -31,12 +31,12 @@ func main2() {
 }
 
 func main() {
-	/*Divider()
+	Divider()
 
 	concrete := builder.NewConcreteBuilder().SetA(10).SetB(28).Build()
 	concrete.Print()
 	concrete.Action()
-	concrete.Print()*/
+	concrete.Print()
 
 	Divider(DividerOption{Title: "default concrete"})
 
