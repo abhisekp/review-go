@@ -9,9 +9,9 @@ type Concrete2 struct {
 	*concrete // Embed Concrete in Concrete2
 	__builder bool
 	__this    IConcrete2
-	a         int
-	b         int
-	c         int
+	// a         int
+	b int
+	c int
 }
 
 var _ IConcrete2 = (*Concrete2)(nil)
@@ -49,7 +49,7 @@ func (c *Concrete2) GetB() int {
 
 func (c *Concrete2) Setup() {
 	c.AssertBuild()
-	c.c = 10
+	c.c = 20
 	fmt.Println("Setup method from Concrete2")
 }
 
@@ -75,6 +75,6 @@ func (c *Concrete2) Action() {
 
 func (c *Concrete2) Print() {
 	c.AssertBuild()
-	c.concrete.Print()                                    // Calling base's Print method
-	fmt.Println("Printing using Concrete: c =", c.GetC()) // Printing Concrete's value, not base's
+	c.concrete.Print()                                     // Calling base's Print method
+	fmt.Println("Printing using Concrete2: c =", c.GetC()) // Printing Concrete's value, not base's
 }

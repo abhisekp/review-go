@@ -16,7 +16,6 @@ var _ IConcrete = (*Concrete)(nil)
 
 func NewConcrete() *Concrete {
 	if newBase, ok := NewBaseBuilder().Build().(*base); ok && newBase != nil {
-		newBase.__builder = true
 		this := &Concrete{base: newBase}
 		newBase.__this = this
 		return this // Returning a pointer to Concrete struct with base embedded
@@ -70,9 +69,5 @@ func (c *Concrete) Setup() {
 func (c *Concrete) Print() {
 	c.AssertBuild()
 	c.base.Print()
-	b := c.GetB()
-	if c.__this != nil {
-		b = c.__this.GetB()
-	}
-	fmt.Println("Printing using Concrete: b =", b)
+	fmt.Println("Printing using Concrete: b =", c.GetB())
 }
