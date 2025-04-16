@@ -24,3 +24,38 @@ func Fibs[T int]() iter.Seq[T] {
 		}
 	}
 }
+
+// Nnacci n-nacci sequence
+func Nnacci[T int](inits ...[]T) iter.Seq[T] {
+	initial := []T{0, 1, 1}
+	if len(inits) >= 1 {
+		initial = inits[0]
+	}
+
+	return func(yield func(T) bool) {
+		currSum := T(0)
+
+		last := initial[0]
+
+		for i, j := 0, 0; ; i = i + 1 {
+			if i < len(initial) {
+				curr := initial[i]
+				currSum += curr
+				if !yield(curr) {
+					return
+				}
+			} else {
+				if !yield(currSum) {
+					return
+				}
+				currSum -= last
+				j++
+				if j < len(initial) {
+					// last =
+				} else {
+					last = initial[j]
+				}
+			}
+		}
+	}
+}

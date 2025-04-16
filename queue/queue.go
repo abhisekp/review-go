@@ -2,38 +2,34 @@ package queue
 
 import (
 	"iter"
+	"review-go/linkedlist"
 	"review-go/utils"
-	"slices"
 )
 
 type Queue[T any] struct {
-	data []T
+	data *linkedlist.LinkedList[T]
 }
 
 type QueueOption struct {
-	Size int
 }
 
 func NewQueue[T any](options ...QueueOption) *Queue[T] {
 	option := utils.TakeFirst(QueueOption{}, options)
-	size := 10
-	if option.Size != 0 {
-		size = option.Size
-	}
+	_ = option
 	return &Queue[T]{
-		data: make([]T, 0, size),
+		data: linkedlist.NewLinkedList[T](),
 	}
 }
 
 func (q *Queue[T]) Enqueue(data ...T) {
-	q.data = append(q.data, data...)
+	q.data.Add(data...)
 }
 
 func (q *Queue[T]) Dequeue() bool {
 	if q.IsEmpty() {
 		return false
 	}
-	q.data = q.data[1:]
+	q.data.Remove(q.data.Head())
 	return true
 }
 
@@ -42,17 +38,21 @@ func (q *Queue[T]) Peek() (T, bool) {
 	if q.IsEmpty() {
 		return empty, false
 	}
-	return q.data[0], true
+	val := q.data.Head()
+	if val != nil {
+		return val.Value(), true
+	}
+	return empty, false
 }
 
 func (q *Queue[T]) IsEmpty() bool {
-	return len(q.data) == 0
+	return q.data.IsEmpty()
 }
 
 func (q *Queue[T]) Values() iter.Seq[T] {
-	return slices.Values(q.data)
+	return q.data.Values()
 }
 
 func (q *Queue[T]) Size() int {
-	return len(q.data)
+	return q.data.Size()
 }

@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"golang.org/x/text/unicode/norm"
 	"math/rand"
 	"os"
 	"review-go/add_asm"
@@ -14,9 +16,11 @@ import (
 	"review-go/lib"
 	"review-go/linkedlist"
 	"review-go/recursion"
+	"review-go/signal"
 	"review-go/ticker"
 	. "review-go/utils"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 	"unsafe"
@@ -334,6 +338,60 @@ func main15() { // https://go.dev/play/p/4H7V_kKDw5m
 	fmt.Printf(format, "PaddedPoint", unsafe.Sizeof(PaddedPoint{}), unsafe.Alignof(PaddedPoint{}))
 }
 
+type CharCount struct {
+	char  string
+	count int
+}
+
+func main16() {
+	input := "👨‍👨‍👦👨‍👨‍👦👨‍👨‍👦aaabbbcca👫👫"
+
+	fmt.Println(input)
+	s := norm.NFC.String(input)
+
+	var res []CharCount
+
+	for _, r := range s {
+		fmt.Println(strconv.QuoteRune(r))
+		if len(res) == 0 {
+			res = append(res, CharCount{
+				char:  string(r),
+				count: 1,
+			})
+		} else {
+			// Get the first character of the string as rune
+			// and compare it with the current rune
+
+			if bytes.Runes([]byte(res[len(res)-1].char))[0] == r {
+				res[len(res)-1].count++
+			} else {
+				res = append(res, CharCount{
+					char:  string(r),
+					count: 1,
+				})
+			}
+		}
+	}
+
+	fmt.Println(res)
+}
+
+func main17() {
+	graph := map[string][]string{
+		"cab": {"car", "cat"},
+		"cat": {"mat", "bat"},
+		"car": {"bar", "cat"},
+		"bat": {},
+		"mat": {"bat"},
+		"bar": {"bat"},
+	}
+	if _, level, ok := bfs.ShortestPath(graph, "cab", func(s string) bool {
+		return s == "bat"
+	}); ok {
+		fmt.Println("Level:", level)
+	}
+}
+
 func main() {
-	// Write your code here
+	signal.SignalCtx()
 }
