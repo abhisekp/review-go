@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"golang.org/x/text/unicode/norm"
 	"math/rand"
 	"os"
 	"review-go/add_asm"
@@ -24,6 +23,8 @@ import (
 	"strings"
 	"time"
 	"unsafe"
+
+	"golang.org/x/text/unicode/norm"
 )
 
 func main2() {

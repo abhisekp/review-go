@@ -1,0 +1,25 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_size = 2
+indent_style = space
+insert_final_newline = false
+max_line_length = 120
+tab_width = 2
+
+[{*.go,*.go2}]
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+[{*.graphqlconfig,*.graphqlrc,*.har,*.jsb2,*.jsb3,*.json,*.jsonc,*.postman_collection,*.postman_collection.json,*.postman_environment,*.postman_environment.json,.babelrc,.eslintrc,.prettierrc,.stylelintrc,.ws-context,jest.config}]
+tab_width = 4
+
+[{*.markdown,*.md}]
+indent_size = 4
+tab_width = 4
+
+[{*.mk,GNUmakefile,GNUmakefile.inc,makefile,makefile.inc}]
+tab_width = 4
