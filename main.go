@@ -14,6 +14,7 @@ import (
 	"review-go/hashtable"
 	"review-go/lib"
 	"review-go/linkedlist"
+	"review-go/pipeline"
 	"review-go/recursion"
 	"review-go/signal"
 	"review-go/ticker"
@@ -21,6 +22,7 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"unsafe"
 
@@ -393,6 +395,54 @@ func main17() {
 	}
 }
 
-func main() {
+func main18() {
 	signal.SignalCtx()
+}
+
+func main19() {
+	i := 0
+	cond := sync.NewCond(&sync.Mutex{})
+	cond2 := sync.NewCond(&sync.Mutex{})
+	t := time.NewTicker(time.Second)
+
+	// Consumer
+	go func() {
+
+		for {
+			cond.L.Lock()
+			cond.Wait()
+			if i > 5 {
+				fmt.Println("Caught", i)
+			}
+
+			if i == 9 {
+				t.Stop()
+				cond2.Signal()
+			}
+
+			i = 0
+			cond.L.Unlock()
+		}
+	}()
+
+	// Producer
+	go func() {
+		// Every 1s, a random number appears
+		for range t.C {
+			cond.L.Lock()
+			i = rand.Intn(10)
+			cond.L.Unlock()
+
+			fmt.Println("Emit", i)
+			cond.Signal()
+		}
+	}()
+
+	cond2.L.Lock()
+	defer cond2.L.Unlock()
+	cond2.Wait()
+}
+
+func main() {
+	pipeline.Run()
 }
