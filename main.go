@@ -8,13 +8,13 @@ import (
 	"os"
 	"review-go/add_asm"
 	"review-go/bfs"
+	"review-go/blog"
 	"review-go/builder"
 	. "review-go/dfs"
 	"review-go/gcd"
 	"review-go/hashtable"
 	"review-go/lib"
 	"review-go/linkedlist"
-	"review-go/pipeline"
 	"review-go/recursion"
 	"review-go/signal"
 	"review-go/ticker"
@@ -24,6 +24,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unicode"
 	"unsafe"
 
 	"golang.org/x/text/unicode/norm"
@@ -443,6 +444,26 @@ func main19() {
 	cond2.Wait()
 }
 
+func main20() {
+	// pipeline.Run()
+
+	for i := 0; i < 3; i++ {
+		go func() {
+			fmt.Println(i)
+		}()
+	}
+
+	time.Sleep(time.Second)
+}
+
+func main21() {
+	x := make([]int, 0, 5)
+	_ = x
+	fmt.Println(unicode.In('1', unicode.Number, unicode.Letter))
+	fmt.Printf("%c\n", unicode.To(unicode.UpperCase, 'a'))
+	// fmt.Println(x[len(x)-1])
+}
+
 func main() {
-	pipeline.Run()
+	blog.Run()
 }
